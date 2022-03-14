@@ -1,0 +1,28 @@
+THIS IS THE OUTPUT OF ls - l
+.
+..
+file-1
+file-2
+man.txt
+Screenshot from 2022-03-14 09-50-58.png
+Screenshot from 2022-03-14 09-51-05.png
+Screenshot from 2022-03-14 09-51-24.png
+Screenshot from 2022-03-14 09-51-34.png
+Screenshot from 2022-03-14 09-51-52.png
+Screenshot from 2022-03-14 09-52-17.png
+Screenshot from 2022-03-14 09-52-41.png
+test.txt
+text.txt
+total 2560
+-rw-rw-r-- 1 student1 student1      0 Mar 14 09:39 file-1
+-rw-rw-r-- 1 student1 student1      0 Mar 14 09:39 file-2
+-rw-rw-r-- 1 student1 student1  36451 Mar 14 09:29 man.txt
+-rw-rw-r-- 1 student1 student1 417251 Mar 14 09:50 Screenshot from 2022-03-14 09-50-58.png
+-rw-rw-r-- 1 student1 student1 523050 Mar 14 09:51 Screenshot from 2022-03-14 09-51-05.png
+-rw-rw-r-- 1 student1 student1 318457 Mar 14 09:51 Screenshot from 2022-03-14 09-51-24.png
+-rw-rw-r-- 1 student1 student1 318457 Mar 14 09:51 Screenshot from 2022-03-14 09-51-34.png
+-rw-rw-r-- 1 student1 student1 342111 Mar 14 09:51 Screenshot from 2022-03-14 09-51-52.png
+-rw-rw-r-- 1 student1 student1 337800 Mar 14 09:52 Screenshot from 2022-03-14 09-52-17.png
+-rw-rw-r-- 1 student1 student1 311667 Mar 14 09:52 Screenshot from 2022-03-14 09-52-41.png
+-rw-rw-r-- 1 student1 student1      0 Mar 14 10:04 test.txt
+-rw-rw-r-- 1 student1 student1    354 Mar 14 10:06 text.txt
