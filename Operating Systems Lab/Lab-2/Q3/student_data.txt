@@ -1,0 +1,11 @@
+RegistrationNo:Name:Department:Branch:Section:Sub1:Sub2:Sub3
+200953032:Aditya Chandra:CCE:A:90:95:92
+200953050:Praveen Verma:CSE:B:99:92:88
+200953012:Anurag Chowdhary:CSE:88:80:100
+200912312:Aryamann Ningombamm:IT:99:91:94
+200900001:Akshay Gupta:Mechanical:40:60:90
+200900002:Yashwant:ECE:69:69:42
+200912356:Shreya:EEE:100:23:56
+200930303:Aman Gupta:CCE:12:30:21
+200958432:Ruthvik Reddy:IT:90:12:34
+200934671:Anish:ENI:89:45:23

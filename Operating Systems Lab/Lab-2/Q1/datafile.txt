@@ -1,0 +1,3 @@
+1. A Unix shell is a command-line interpreter or shell that provides a command line user interface for Unix-like operating systems. 
+2. The shell is both an interactive command language and a scripting language, and is used by the operating system to control the execution of the system using shell scripts.
+3. Users typically interact with a Unix shell using a terminal emulator; however, direct operation via serial hardware connections or Secure Shell are common for server systems. 
