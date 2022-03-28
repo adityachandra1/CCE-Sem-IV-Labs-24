@@ -1,0 +1,5 @@
+Example: .ex:
+Hi this is an example 
+Example: 
+.ex: 
+ex .ex:

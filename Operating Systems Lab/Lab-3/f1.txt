@@ -1,0 +1,3 @@
+Checking for . Example:
+Hi this is an example 
+.ex: 
