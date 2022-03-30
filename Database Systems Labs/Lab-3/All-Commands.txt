@@ -1,0 +1,219 @@
+// By: 
+// Aditya Chandra
+// 200953032
+// CCE - A 
+// Database Systems Lab - 3
+
+#######
+//Q1
+
+CREATE TABLE Person (
+  driver_id varchar(30) PRIMARY KEY,
+  name VARCHAR(50), 
+  address VARCHAR(100)
+);
+
+CREATE TABLE Car (
+  regno varchar(20) PRIMARY KEY,
+  model VARCHAR(30),
+  year INT
+);
+
+CREATE TABLE ACCIDENT (
+  report_number INT PRIMARY KEY,
+  accd_date DATE,
+  location VARCHAR(50)
+);
+
+CREATE TABLE Owns (
+ driver_id VARCHAR(30),
+ regno VARCHAR(20),
+ PRIMARY KEY(driver_id, regno),
+ FOREIGN KEY(driver_id) references Person,
+ FOREIGN KEY(regno) references Car
+);
+
+CREATE TABLE Participated(
+    driver_id VARCHAR(30),
+    regno VARCHAR(20),
+    report_number INT,
+    damage_amount INT,
+    PRIMARY KEY(driver_id, regno, report_number),
+    FOREIGN KEY(driver_id) references Person,
+    FOREIGN KEY(regno) references Car,
+    FOREIGN KEY(report_number) references Accident ON DELETE CASCADE,
+);
+
+
+######
+//Q2
+
+INSERT INTO Person
+VALUES('a101', 'Aditya Chandra', 'Surat,Guj,INDIA');
+
+
+INSERT INTO Person
+VALUES('a102', 'Swamiraju Satya Praveen Verma', 'Hyderabad, Telangana, INDIA');
+
+
+INSERT INTO Person
+VALUES('a103', 'Anurag Chowdhary', 'Bengaluru, Karnataka, INDIA');
+
+
+INSERT INTO Person
+VALUES('a104', 'Akshay Gupta', 'Mirzapur, UP ,INDIA');
+
+INSERT INTO Person
+VALUES('a105', 'Abhay Mudgil', 'Kolkata, WB ,INDIA');
+
+
+////
+
+
+INSERT INTO Car
+VALUES('GJ-05-AX-6969', 'Audi Q7', '2020');
+
+INSERT INTO Car
+VALUES('MH-01-BG-6034', 'Audi A6', '2016');
+
+INSERT INTO Car
+VALUES('TN-05-XX-2345', 'BMW X5', '2021');
+
+INSERT INTO Car
+VALUES('KA-09-DO-2347', 'BMW X7', '2009');
+
+INSERT INTO Car
+VALUES('UP-05-AX-6239', 'Audi A4', '2022');
+
+
+////
+
+
+INSERT INTO Accident
+VALUES(1001, DATE '2022-03-28' , 'ROAD 5 , BENGALURU');
+
+INSERT INTO Accident
+VALUES(1002, DATE '2021-03-27' , 'ROAD 6 , BENGALURU');
+
+INSERT INTO Accident
+VALUES(1003, DATE '2022-03-28' , 'ROAD 8 , BENGALURU');
+
+INSERT INTO Accident
+VALUES(1004, DATE '2019-03-28' , 'ROAD 8 , BENGALURU');
+
+INSERT INTO Accident
+VALUES(1005, DATE '2020-01-24' , 'ROAD 84 , DELHI');
+
+INSERT INTO Accident
+VALUES(1006, DATE '2024-02-02' , 'ROAD 90 , UDUPI');
+
+INSERT INTO Accident
+VALUES(1007, DATE '2022-03-07' , 'ROAD 69 , MUMBAI');
+
+
+////
+
+
+INSERT INTO OWNS	
+VALUES('a101' , 'GJ-05-AX-6969');
+
+
+INSERT INTO OWNS	
+VALUES('a102' , 'MH-01-BG-6034');
+
+
+INSERT INTO OWNS	
+VALUES('a103' , 'TN-05-XX-2345');
+
+
+INSERT INTO OWNS	
+VALUES('a104' , 'KA-09-DO-2347');
+
+
+INSERT INTO OWNS	
+VALUES('a105' , 'UP-05-AX-6239');
+
+
+////
+
+
+INSERT INTO Participated	
+VALUES('a101' , 'GJ-05-AX-6969', 1001, 12000);
+
+INSERT INTO Participated	
+VALUES('a102' , 'MH-01-BG-6034', 1001, 12000);
+
+INSERT INTO Participated	
+VALUES('a101' , 'GJ-05-AX-6969', 1005, 3000);
+
+INSERT INTO Participated	
+VALUES('a101' , 'GJ-05-AX-6969', 1007, 45000);
+
+INSERT INTO Participated	
+VALUES('a103' , 'TN-05-XX-2345', 1006, 1560);
+
+INSERT INTO Participated	
+VALUES('a102' , 'MH-01-BG-6034', 12, 6900);
+
+
+///
+SELECT * FROM person;
+SELECT * FROM owns;
+SELECT * FROM participated;
+SELECT * FROM accident;
+SELECT * FROM CAR;
+///
+
+
+######
+//Q3
+
+INSERT INTO Accident
+VALUES(12, DATE '2016-04-29' , 'ROAD 69 , MUMBAI');
+
+INSERT INTO Participated	
+VALUES('a102' , 'MH-01-BG-6034', 12, 2500);
+
+UPDATE participated
+SET damage_amount = 25000
+WHERE report_number = 12 AND regno = 'MH-01-BG-6034';
+
+
+######
+//Q4
+
+DELETE FROM Participated 
+WHERE report_number = (
+SELECT report_number 
+FROM ACCIDENT 
+WHERE EXTRACT(year from accd_date) = 2016
+);
+
+DELETE FROM ACCIDENT 
+WHERE EXTRACT(year from accd_date) = 2016;
+
+
+######
+//Q5
+
+ALTER TABLE Person add Phone INT;
+ALTER TABLE Person drop column Phone;
+
+######
+//Q6
+
+ALTER TABLE Car 
+ADD DOB INT Constraint check_8_years CHECK (DOB > 2014);
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,402 @@
+
+// LAB 3
+// ADITYA CHANDRA 
+// 200953032 
+// CCE-A 
+// TERMINAL OUTPUTS
+
+SQL*Plus: Release 11.1.0.6.0 - Production on Wed Mar 30 09:23:25 2022
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+Enter user-name: cce032@ictorcl
+Enter password:
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> CREATE TABLE Person (
+  2    driver_id varchar(30) PRIMARY KEY,
+  3    name VARCHAR(50),
+  4    address VARCHAR(100)
+  5  );
+
+Table created.
+
+SQL> CREATE TABLE Car (
+  2    regno varchar(20) PRIMARY KEY,
+  3    model VARCHAR(30),
+  4    year INT
+  5  );
+
+Table created.
+
+SQL> CREATE TABLE ACCIDENT (
+  2    report_number INT PRIMARY KEY,
+  3    accd_date DATE,
+  4    location VARCHAR(50)
+  5  );
+
+Table created.
+
+SQL> CREATE TABLE Owns (
+  2   driver_id VARCHAR(30),
+  3   regno VARCHAR(20),
+  4   PRIMARY KEY(driver_id, regno),
+  5   FOREIGN KEY(driver_id) references Person,
+  6   FOREIGN KEY(regno) references Car
+  7  );
+
+Table created.
+
+SQL> CREATE TABLE Participated(
+  2      driver_id VARCHAR(30),
+  3      regno VARCHAR(20),
+  4      report_number INT,
+  5      damage_amount INT,
+  6      PRIMARY KEY(driver_id, regno, report_number),
+  7      FOREIGN KEY(driver_id) references Person,
+  8      FOREIGN KEY(regno) references Car,
+  9      FOREIGN KEY(report_number) references Accident
+ 10  );
+
+Table created.
+
+SQL> desc Person
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DRIVER_ID                                 NOT NULL VARCHAR2(30)
+ NAME                                               VARCHAR2(50)
+ ADDRESS                                            VARCHAR2(100)
+
+SQL> desc Car
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                     NOT NULL VARCHAR2(20)
+ MODEL                                              VARCHAR2(30)
+ YEAR                                               NUMBER(38)
+
+SQL> desc Accident
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REPORT_NUMBER                             NOT NULL NUMBER(38)
+ ACCD_DATE                                          DATE
+ LOCATION                                           VARCHAR2(50)
+
+SQL> desc Owns
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DRIVER_ID                                 NOT NULL VARCHAR2(30)
+ REGNO                                     NOT NULL VARCHAR2(20)
+
+SQL> desc participated
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DRIVER_ID                                 NOT NULL VARCHAR2(30)
+ REGNO                                     NOT NULL VARCHAR2(20)
+ REPORT_NUMBER                             NOT NULL NUMBER(38)
+ DAMAGE_AMOUNT                                      NUMBER(38)
+
+
+
+SQL> INSERT INTO Person
+  2  VALUES('a101', 'Aditya Chandra', 'Surat,Guj,INDIA');
+
+1 row created.
+
+SQL> INSERT INTO Car
+  2  VALUES('GJ-05-AX-6969', 'Audi Q7', '2020');
+
+1 row created.
+
+SQL> INSERT INTO Accident
+  2  VALUES(1001, date '2022-03-28' , 'ROAD 5 , BENGALURU');
+
+1 row created.
+
+SQL> INSERT INTO OWNS
+  2  VALUES('a101' , 'GJ-05-AX-6969');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Participated
+  2  VALUES('a101' , 'GJ-05-AX-6969', 1001, 12000);
+
+1 row created.
+
+
+SQL> INSERT INTO Person
+  2  VALUES('a102', 'Swamiraju Satya Praveen Verma', 'Hyderabad, Telangana, INDIA');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Person
+  2  VALUES('a103', 'Anurag Chowdhary', 'Bengaluru, Karnataka, INDIA');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Person
+  2  VALUES('a104', 'Akshay Gupta', 'Mirzapur, UP ,INDIA');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Person
+  2  VALUES('a105', 'Abhay Mudgil', 'Kolkata, WB ,INDIA');
+
+1 row created.
+
+
+SQL>
+SQL> INSERT INTO Car
+  2  VALUES('MH-01-BG-6034', 'Audi A6', '2016');
+
+1 row created.
+
+SQL> INSERT INTO Car
+  2  VALUES('TN-05-XX-2345', 'BMW X5', '2021');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Car
+  2  VALUES('KA-09-DO-2347', 'BMW X7', '2009');
+
+1 row created.
+
+SQL> INSERT INTO Car
+  2  VALUES('UP-05-AX-6239', 'Audi A4', '2022');
+
+1 row created.
+
+
+SQL>
+SQL> INSERT INTO Accident
+  2  VALUES(1002, DATE '2021-03-27' , 'ROAD 6 , BENGALURU');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Accident
+  2  VALUES(1003, DATE '2022-03-28' , 'ROAD 8 , BENGALURU');
+
+1 row created.
+
+SQL> INSERT INTO Accident
+  2  VALUES(1004, DATE '2019-03-28' , 'ROAD 8 , BENGALURU');
+
+1 row created.
+
+SQL> INSERT INTO Accident
+  2  VALUES(1005, DATE '2020-01-24' , 'ROAD 84 , DELHI');
+
+1 row created.
+
+SQL> INSERT INTO Accident
+  2  VALUES(1006, DATE '2024-02-02' , 'ROAD 90 , UDUPI');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Accident
+  2  VALUES(1007, DATE '2022-03-07' , 'ROAD 69 , MUMBAI');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO OWNS
+  2  VALUES('a102' , 'MH-01-BG-6034');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO OWNS
+  2  VALUES('a103' , 'TN-05-XX-2345');
+
+1 row created.
+
+SQL>
+SQL>
+SQL> INSERT INTO OWNS
+  2  VALUES('a104' , 'KA-09-DO-2347');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO OWNS
+  2  VALUES('a105' , 'UP-05-AX-6239');
+
+1 row created.
+
+
+
+SQL>
+SQL> INSERT INTO Participated
+  2  VALUES('a102' , 'MH-01-BG-6034', 1001, 12000);
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Participated
+  2  VALUES('a101' , 'GJ-05-AX-6969', 1005, 3000);
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Participated
+  2  VALUES('a101' , 'GJ-05-AX-6969', 1007, 45000);
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Participated
+  2  VALUES('a103' , 'TN-05-XX-2345', 1006, 1560);
+
+1 row created.
+
+SQL> INSERT INTO Participated
+  2  VALUES('a102' , 'MH-01-BG-6034', 1002, 6900);
+
+1 row created.
+
+SQL> SELECT * FROM person;
+
+DRIVER_ID
+------------------------------
+NAME
+--------------------------------------------------
+ADDRESS
+--------------------------------------------------------------------------------
+a101
+Aditya Chandra
+Surat,Guj,INDIA
+
+a102
+Swamiraju Satya Praveen Verma
+Hyderabad, Telangana, INDIA
+
+DRIVER_ID
+------------------------------
+NAME
+--------------------------------------------------
+ADDRESS
+--------------------------------------------------------------------------------
+
+a103
+Anurag Chowdhary
+Bengaluru, Karnataka, INDIA
+
+a104
+Akshay Gupta
+
+DRIVER_ID
+------------------------------
+NAME
+--------------------------------------------------
+ADDRESS
+--------------------------------------------------------------------------------
+Mirzapur, UP ,INDIA
+
+a105
+Abhay Mudgil
+Kolkata, WB ,INDIA
+
+
+SQL> SELECT * FROM owns;
+
+DRIVER_ID                      REGNO
+------------------------------ --------------------
+a101                           GJ-05-AX-6969
+a102                           MH-01-BG-6034
+a103                           TN-05-XX-2345
+a104                           KA-09-DO-2347
+a105                           UP-05-AX-6239
+
+SQL> SELECT * FROM participated;
+
+DRIVER_ID                      REGNO                REPORT_NUMBER DAMAGE_AMOUNT
+------------------------------ -------------------- ------------- -------------
+a101                           GJ-05-AX-6969                 1001         12000
+a102                           MH-01-BG-6034                 1001         12000
+a101                           GJ-05-AX-6969                 1005          3000
+a101                           GJ-05-AX-6969                 1007         45000
+a103                           TN-05-XX-2345                 1006          1560
+a102                           MH-01-BG-6034                 1002          6900
+
+6 rows selected.
+
+SQL> SELECT * FROM accident;
+
+REPORT_NUMBER ACCD_DATE LOCATION
+------------- --------- --------------------------------------------------
+         1001 28-MAR-22 ROAD 5 , BENGALURU
+         1002 27-MAR-21 ROAD 6 , BENGALURU
+         1003 28-MAR-22 ROAD 8 , BENGALURU
+         1004 28-MAR-19 ROAD 8 , BENGALURU
+         1005 24-JAN-20 ROAD 84 , DELHI
+         1006 02-FEB-24 ROAD 90 , UDUPI
+         1007 07-MAR-22 ROAD 69 , MUMBAI
+
+7 rows selected.
+
+SQL> SELECT * FROM CAR;
+
+REGNO                MODEL                                YEAR
+-------------------- ------------------------------ ----------
+GJ-05-AX-6969        Audi Q7                              2020
+MH-01-BG-6034        Audi A6                              2016
+TN-05-XX-2345        BMW X5                               2021
+KA-09-DO-2347        BMW X7                               2009
+UP-05-AX-6239        Audi A4                              2022
+
+
+
+SQL> INSERT INTO Accident
+  2  VALUES(12, DATE '2016-04-29' , 'ROAD 69 , MUMBAI');
+
+1 row created.
+
+SQL>
+SQL> INSERT INTO Participated
+  2  VALUES('a102' , 'MH-01-BG-6034', 12, 2500);
+
+1 row created;
+
+SQL> UPDATE participated
+  2  SET damage_amount = 25000
+  3  WHERE report_number = 12 AND regno = 'MH-01-BG-6034';
+
+1 row updated.
+
+SQL> DELETE FROM Participated
+  2  WHERE report_number = (
+  3  SELECT report_number
+  4  FROM ACCIDENT
+  5  WHERE EXTRACT(year from accd_date) = 2016
+  6  );
+
+1 row deleted.
+
+SQL> DELETE FROM ACCIDENT
+  2  WHERE EXTRACT(year from accd_date) = 2016;
+
+1 row deleted.
+
+SQL> ALTER TABLE Person add Phone INT;
+
+Table altered.
+
+SQL> ALTER TABLE Person drop column Phone;
+
+Table altered.
+
+SQL> ALTER TABLE Car
+  2  ADD DOB INT Constraint check_8_years CHECK (DOB > 2014);
+
+Table altered.
+
+SQL>
