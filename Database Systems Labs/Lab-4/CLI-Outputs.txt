@@ -1,0 +1,73 @@
+By: Aditya Chandra
+200953032
+CCE-A / 9
+LAB - 4
+CLI OUTPUTS 
+
+SQL*Plus: Release 11.1.0.6.0 - Production on Wed Apr 6 09:42:08 2022
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+Enter user-name: cce032@ictorcl
+Enter password:
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL>
+SQL> SELECT COUNT(DISTINCT driver_id)
+  2  FROM participated NATURAL JOIN accident
+  3  WHERE EXTRACT(YEAR from accd_date) = '2008';
+
+COUNT(DISTINCTDRIVER_ID)
+------------------------
+                       0
+
+SQL> SELECT COUNT(report_number)
+  2  FROM accident NATURAL JOIN participated NATURAL JOIN CAR
+  3  WHERE car.model LIKE '%Audi%';
+
+COUNT(REPORT_NUMBER)
+--------------------
+                   5
+
+SQL> SELECT PERSON.name as Owner_Name, COUNT(report_number) as No_of_Accidents, sum(damage_amount) as Total_Amount
+  2  FROM PERSON NATURAL JOIN PARTICIPATED
+  3  GROUP BY person.name;
+
+OWNER_NAME                                         NO_OF_ACCIDENTS TOTAL_AMOUNT
+-------------------------------------------------- --------------- ------------
+Aditya Chandra                                                   3        60000
+Swamiraju Satya Praveen Verma                                    2        18900
+Anurag Chowdhary                                                 1         1560
+
+SQL>
+SQL> SELECT driver_id
+  2  FROM PARTICIPATED NATURAL JOIN ACCIDENT
+  3  WHERE extract(year from accd_date) = '2018'
+  4  HAVING COUNT(report_number)>1
+  5  GROUP BY driver_id;
+
+no rows selected
+
+SQL> SELECT driver_id
+  2  FROM PARTICIPATED NATURAL JOIN ACCIDENT
+  3  WHERE extract(year from accd_date) = '2022'
+  4  HAVING COUNT(report_number)>1
+  5  GROUP BY driver_id;
+
+DRIVER_ID
+------------------------------
+a101
+
+SQL> (SELECT name from PERSON)
+  2  MINUS
+  3  (SELECT name from PERSON natural join PARTICIPATED);
+
+NAME
+--------------------------------------------------
+Abhay Mudgil
+Akshay Gupta
+
+SQL>

@@ -1,0 +1,44 @@
+By: Aditya Chandra
+200953032
+CCE-A / 9
+LAB - 4
+
+####
+Q1) Find the total number of people who owned cars that were involved in accidents in 2008.
+
+SELECT COUNT(DISTINCT driver_id)
+FROM participated NATURAL JOIN accident
+WHERE EXTRACT(YEAR from accd_date) = '2008';
+
+####
+Q2) Find the number of accidents in which cars belonging to a specific model were
+involved.
+
+SELECT COUNT(report_number)
+FROM accident NATURAL JOIN participated NATURAL JOIN CAR
+WHERE car.model LIKE '%Audi%';
+
+####
+Q3) Produce a listing with header as OWNER_NAME, No. of Accidents, and Total
+Damage Amount in a descending order on total damage.
+
+SELECT PERSON.name as Owner_Name, COUNT(report_number) as No_of_Accidents, sum(damage_amount) as Total_Amount
+FROM PERSON NATURAL JOIN PARTICIPATED
+GROUP BY person.name;
+
+####
+Q4) List the Owners who made more than 2 accidents in a year.
+
+SELECT driver_id
+FROM PARTICIPATED NATURAL JOIN ACCIDENT 
+WHERE extract(year from accd_date) = '2022' 
+HAVING COUNT(report_number)>1 
+GROUP BY driver_id;
+
+####
+Q5) List the owners who are not involved in any accident.
+
+(SELECT name from PERSON)
+MINUS 
+(SELECT name from PERSON natural join PARTICIPATED);
+
