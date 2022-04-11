@@ -1,7 +1,2 @@
-#!/bin/bash
-
-echo Q1: Make Duplicate File
-echo "Enter the name of the file to be copied:"
-read file
-touch $file
-cp $file copy-$file
+cp $1 $2
+echo "Done"
