@@ -1,0 +1,112 @@
+// By: Aditya Chandra
+// 200953032/CCE-A
+// Batch: 1
+// Airport DB
+
+CREATE TABLE customer(
+    cust_id INT PRIMARY KEY,
+    name VARCHAR(30),
+    country VARCHAR(30),
+    phone VARCHAR(20)
+);
+
+CREATE TABLE booking(
+    booking_id INT PRIMARY KEY,
+    cust_id INT,
+    dest VARCHAR(30),
+    origin VARCHAR(30),
+    flight_no INT,
+	booking_date DATE,
+	travel_date DATE,
+    FOREIGN KEY (flight_no) references flights ON DELETE CASCADE,
+    FOREIGN KEY (cust_id) references customer ON DELETE CASCADE
+);
+
+CREATE TABLE flights(
+    flight_no INT PRIMARY KEY,
+    dest VARCHAR(30),
+    origin VARCHAR(30),
+    day VARCHAR(10)
+);
+
+DESC flights;
+DESC customer;
+DESC booking;
+
+INSERT INTO Flights VALUES( 8088, 'INDIA' , 'UK', 'MONDAY');
+INSERT INTO Flights VALUES( 8089, 'USA' , 'UK', 'TUESDAY');
+INSERT INTO Flights VALUES( 8090, 'INDIA' , 'UK', 'THURSDAY');
+INSERT INTO Flights VALUES( 8091, 'UAE' , 'INDIA', 'MONDAY');
+INSERT INTO Flights VALUES( 8092, 'GERMANY' , 'INDIA', 'MONDAY');
+INSERT INTO Flights VALUES( 8093, 'CHINA' , 'UK', 'TUESDAY');
+INSERT INTO Flights VALUES( 8094, 'INDIA' , 'GERMANY', 'THURSDAY');
+
+
+INSERT INTO customer VALUES( 100069, 'Aditya Chandra', 'INDIA', '6303647181');
+INSERT INTO customer VALUES( 100070, 'Anurag Chowdhary', 'USA', '6303432581');
+INSERT INTO customer VALUES( 100071, 'Praveen Verma', 'UAE', '9885647181');
+INSERT INTO customer VALUES( 100072, 'Akshay Gupta', 'GERMANY', '6399997181');
+INSERT INTO customer VALUES( 100073, 'Vinayak Mehrotra', 'INDIA', '880647181');
+INSERT INTO customer VALUES( 100074, 'Joe Mama', 'INDIA', '9099647181');
+
+INSERT INTO booking VALUES( 690001, 100069, 'INDIA' , 'GERMANY', 8094);
+INSERT INTO Flights VALUES( 690002, 100069, 'GERMANY' , 'INDIA', 8092);
+INSERT INTO Flights VALUES( 690003, 100070, 'USA' , 'UK', 8089);
+INSERT INTO Flights VALUES( 690004, 100073, 'INDIA' , 'UK', 8090);
+INSERT INTO Flights VALUES( 690005, 100070, 'UAE' , 'INDIA', 8091);
+
+
+SELECT * FROM customer;
+SELECT * FROM flights;
+SELECT * FROM booking;
+SELECT * FROM countries;
+SELECT * FROM airports;
+
+SELECT * 
+FROM customer
+WHERE country = 'India'
+ORDER BY cust_id;
+
+SELECT distinct(name), booking_id, dest, origin, flight_no
+FROM customer NATURAL JOIN booking;
+
+SELECT distinct(name), dest, origin, flight_no
+FROM customer NATURAL JOIN booking;
+
+SELECT flight_no, day
+FROM flights
+WHERE dest = 'INDIA' AND origin = 'UK';
+
+SELECT cust_id, name 
+FROM customer
+WHERE cust_id NOT IN (SELECT cust_id from booking);
+
+SELECT * 
+FROM flights 
+WHERE day = 'MONDAY';
+
+
+
+
+ezz lmao
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
