@@ -1,0 +1,192 @@
+//Aditya Chandra
+//200953032 CCE - A / 9
+//DBS LAB - 5
+// COMMANDS
+
+CREATE TABLE STUDENT (
+	regno VARCHAR(20), 
+	name VARCHAR(50), 
+	major VARCHAR(20),
+	bdate DATE, 
+	primary key (regno)
+);
+
+CREATE TABLE COURSE (
+	course# INT, 	
+	cname VARCHAR(30), 
+	dept VARCHAR(30), 
+	primary key(course#)
+);
+
+CREATE TABLE TEXT (
+	book_isbn INT, 
+	booktitle VARCHAR(50),
+	publisher VARCHAR(50), 
+	author VARCHAR(50), 
+	primary key (book_isbn)
+);
+
+CREATE TABLE ENROLL (
+	regno VARCHAR(20), 
+	course# INT,
+	sem INT, 
+	book_isbn INT,
+	primary key (regno, course#), 
+	foreign key (regno) REFERENCES student ON DELETE CASCADE,
+	foreign key (course#) REFERENCES course ON DELETE CASCADE,
+	foreign key (book_isbn) REFERENCES text ON DELETE CASCADE
+);
+
+CREATE TABLE BOOK_ADOPTION (
+	course# INT, 
+	sem INT, 
+	book_isbn INT, 
+	primary key(course#, book_isbn), 
+	foreign key(course#) REFERENCES course ON DELETE CASCADE,
+	foreign key(book_isbn) REFERENCES text ON DELETE CASCADE
+);
+	
+
+INSERT INTO student VALUES ('a101', 'Aditya Chandra', 'CCE', DATE '2002-01-04');
+INSERT INTO student VALUES ('a102', 'Shourya Gupta', 'CSE', DATE '2003-02-05');
+INSERT INTO student VALUES ('a103', 'Anurag Chowdhary', 'IT', DATE '2004-03-06');
+INSERT INTO student VALUES ('a104', 'Praveen Verma', 'DSE', DATE '2005-04-07');
+INSERT INTO student VALUES ('a105', 'Sitaraman S', 'CSAI', DATE '2006-05-08');
+INSERT INTO student VALUES ('a106', 'Abhay Mudgil', 'Mech', DATE '2006-05-08');
+
+INSERT INTO course VALUES(1000, 'Database Systems', 'CCE');
+INSERT INTO course VALUES(1001, 'Embedded Systems', 'CSE');
+INSERT INTO course VALUES(1002, 'Convolutional Neural Networks', 'CSAI');
+INSERT INTO course VALUES(1003, 'Data Analytics', 'DSE');
+INSERT INTO course VALUES(1004, 'Algorithms', 'IT');
+
+INSERT INTO text VALUES (5001, 'Help me Help You', 'ABC Limited', 'Ben Dover');
+INSERT INTO text VALUES (5002, 'Sleep All Day', 'ZZZ', 'Yuri Tarded');
+INSERT INTO text VALUES (5003, 'Make your SLCM faster', 'MIT', 'Ligma');
+INSERT INTO text VALUES (5004, 'Neural Networks for Noobs', 'Bish Limited', 'Joe Mama');
+INSERT INTO text VALUES (5005, 'Become a Pro Data Scientist in 30 mins!', 'Godswill Publishing', 'Jack Mehoff');
+
+INSERT INTO enroll VALUES ('a101', 1000, 4, 5003);
+INSERT INTO enroll VALUES ('a101', 1000, 5, 5002);
+INSERT INTO enroll VALUES ('a102', 1001, 3, 5001);
+INSERT INTO enroll VALUES ('a103', 1002, 2, 5005);
+INSERT INTO enroll VALUES ('a104', 1003, 1, 5004);
+INSERT INTO enroll VALUES ('a105', 1004, 2, 5001);
+INSERT INTO enroll VALUES ('a102', 1005, 3, 5003);
+INSERT INTO enroll VALUES ('a101', 1004, 4, 5002);
+INSERT INTO enroll VALUES ('a102', 1003, 3, 5002);
+
+INSERT INTO book_adoption VALUES(1000, 5, 5002);
+INSERT INTO book_adoption VALUES(1001, 3, 5001);
+INSERT INTO book_adoption VALUES(1002, 2, 5005);
+INSERT INTO book_adoption VALUES(1003, 1, 5004);
+INSERT INTO book_adoption VALUES(1004, 2, 5001);
+INSERT INTO book_adoption VALUES(1000, 4, 5003);
+INSERT INTO book_adoption VALUES(1001, 4, 5002);
+
+
+####
+a. List the courses which uses more than 1 text book.
+
+SELECT cname
+FROM course
+WHERE course# in (
+	SELECT course# 
+	FROM book_adoption 
+	GROUP BY course# 
+	HAVING COUNT(*)>1);
+
+####
+b)List the departments whose all course text books are published by a
+particular publisher.
+
+SELECT distinct dept
+    FROM course c, book_adoption b, text t
+    WHERE b.book_isbn = t.book_isbn AND c.course# = b.course# AND t.book_isbn in (
+		SELECT book_isbn 
+		FROM text 
+		WHERE publisher = 'MIT');
+
+####
+c)Find the students who have enrolled for course of more than one
+department
+
+SELECT regno, name, COUNT(distinct dept)
+	FROM (student NATURAL JOIN course) NATURAL JOIN enroll
+  	WHERE regno in (
+		SELECT regno 
+		FROM enroll 
+		GROUP BY regno HAVING COUNT(*)>=2)
+		GROUP BY regno,name;
+
+####
+d)Produce a list of students who are not enrolled.
+SELECT regno 
+	FROM student 
+	WHERE regno NOT IN (
+		SELECT regno 
+		FROM enroll);
+
+####
+e) idk got deleted
+
+####
+f)List the books which are adopted by the course as well as enrolled by
+the student
+
+SELECT book_isbn
+	FROM book_adoption NATURAL JOIN course
+	WHERE course# in
+	(SELECT course# FROM enroll);
+	
+
+####
+g)List the courses which has adapted at least two books from a specific
+publisher
+
+SELECT distinct c.course#, t.publisher
+	FROM book_adoption c , text t
+	WHERE c.book_isbn=t.book_isbn
+	AND t.publisher in
+	( SELECT t1.publisher
+ 	FROM text t1
+  	GROUP BY t1.publisher
+  	HAVING COUNT(*)>=2);
+
+
+####
+h)Identify the students who are enrolled for maximum number of books.
+
+SELECT regno, name, COUNT(*)
+	FROM student NATURAL JOIN enroll NATURAL JOIN book_adoption
+	GROUP BY regno,name 
+	HAVING COUNT(*)>=all(
+  	SELECT COUNT(book_isbn)
+  	FROM book_adoption
+  	GROUP BY course#);
+
+####
+i)List the students who enrolled for all the books adopted by their course
+
+SELECT publisher, COUNT(distinct book_isbn) 
+	FROM text
+	WHERE book_isbn in (
+	SELECT book_isbn
+	FROM text)
+	GROUP BY publisher;
+	
+####
+j) Something
+
+SELECT distinct regno
+	FROM student NATURAL JOIN enroll e
+	WHERE not exists(
+	(SELECT course# 
+	FROM course NATURAL JOIN enroll 
+	GROUP BY course#) 
+	MINUS
+	( SELECT course# FROM course NATURAL JOIN book_adoption GROUP BY course#));
+
+
+
+
