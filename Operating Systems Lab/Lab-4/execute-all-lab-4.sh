@@ -1,5 +1,5 @@
 #!/bin/bash
-
+## Redundant
 echo Running all scripts
 ## result=`find . -maxdepth 1 -name "*sh"`
 #for i in $result
