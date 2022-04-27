@@ -17,7 +17,7 @@ echo $[$sum/7];
 for i in $res; do 
 	if((i>=80));then
 		echo $j;
-	endif
+	fi
 	((j++));
 done;
 
