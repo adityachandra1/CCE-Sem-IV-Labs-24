@@ -1,0 +1,104 @@
+
+
+// Aditya Chandra 
+// 200953032
+// CCE-A1/9
+
+SET SERVEROUTPUT ON;
+
+####
+Q2. . Generate a trigger displaying driver information, on participating in an accident
+
+CREATE OR REPLACE TRIGGER on_accident
+AFTER  INSERT OR UPDATE on participated
+For each row
+	declare
+	p_name person.name%type;
+	p_id person.driver_id%type;
+	p_addr person.Address%type;
+BEGIN
+	if INSERTING then
+		SELECT driver_id, name, address
+		INTO p_id, p_name, p_addr
+		FROM person  
+		WHERE driver_id = :new.driver_id;
+		dbms_output.put_line('name : '||p_name||' driver id : '||p_id||' address : '||p_addr);
+	END if;
+END;
+/
+
+
+####
+Q3. Create a function to return total number of accidents happened in a particular year
+
+CREATE OR REPLACE function acc2(year1 in varchar) return number as
+counter integer;
+BEGIN
+	SELECT count(*) INTO counter 
+	FROM ACCIDENT a 
+	WHERE extract(year FROM accd_date)=year1;
+	dbms_output.put_line('Total Accidents Function');
+	return counter;
+END;
+/
+
+set serveroutput on;
+declare year integer;
+BEGIN
+year:=acc2(2020);
+dbms_output.put_line(year);
+END;
+/
+
+declare n number(2);
+BEGIN
+n:=acc2(2000);
+dbms_output.put_line('No of accidents: '||n);
+END;
+/
+
+Statement processed.
+No of accidents: 3
+
+
+####
+Q4. Create a procedure to display total damage caused due to an accident for a particular
+driver on a specific year.
+
+CREATE OR REPLACE PROCEDURE return_damage (n IN varchar2, y IN number)
+IS
+sumT INTEGER;
+BEGIN
+	SELECT sum(damage_amount) INTO sumT 
+	FROM participated natural join accident 
+	WHERE driver_id = n AND extract(year FROM accd_date) = y;
+	dbms_output.put_line('Total Damage Amount: '||sumT||' ');
+END;
+/
+
+execute return_damage('a101', 2020);
+
+### 
+Q5. Create a procedure to display accident information which took place in a particular
+location.
+
+CREATE OR REPLACE procedure acc1(loc in varchar) IS
+rno INTEGER;
+BEGIN
+For item in(
+	SELECT * FROM ACCIDENT WHERE ACCIDENT.location=loc
+	) LOOP
+		dbms_output.put_line('Report Number : '||item.report_number);
+		dbms_output.put_line('Accident Date : '||item.accd_date);
+		dbms_output.put_line('Location : '||item.location);
+	END LOOP;
+END;
+/
+
+set serveroutput on;
+declare
+BEGIN
+acc1('ROAD 8 , BENGALURU');
+END;
+/
+

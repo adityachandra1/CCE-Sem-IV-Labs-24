@@ -1,0 +1,129 @@
+// ADITYA CHANDRA
+// 200953032
+// CCE-A1/9
+
+SQL*Plus: Release 11.1.0.6.0 - Production on Wed Apr 27 11:25:56 2022
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+Enter user-name: cce032@ictorcl
+Enter password:
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> CREATE OR REPLACE TRIGGER on_accident
+  2  AFTER  INSERT OR UPDATE on participated
+  3  For each row
+  4  declare
+  5  p_name person.name%type;
+  6  p_id person.driver_id%type;
+  7  p_addr person.Address%type;
+  8  BEGIN
+  9  if INSERTING then
+ 10  SELECT driver_id, name, address
+ 11  INTO p_id, p_name, p_addr
+ 12  FROM person
+ 13  WHERE driver_id = :new.driver_id;
+ 14  dbms_output.put_line('name : '||p_name||' driver id : '||p_id||' address : '||p_addr);
+ 15  END if;
+ 16  END;
+ 17  /
+
+Trigger created.
+
+SQL> CREATE OR REPLACE function acc2(year1 in varchar) return number as
+  2  counter integer;
+  3  BEGIN
+  4  SELECT count(*) INTO counter
+  5  FROM ACCIDENT a
+  6  WHERE extract(year FROM accd_date)=year1;
+  7  dbms_output.put_line('Total Accidents Function');
+  8  return counter;
+  9  END;
+ 10  /
+
+Function created.
+
+SQL>
+SQL> set serveroutput on;
+SQL> declare year integer;
+  2  BEGIN
+  3  year:=acc2(2020);
+  4  dbms_output.put_line(year);
+  5  END;
+  6  /
+Total Accidents Function
+1
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL> declare n number(2);
+  2  BEGIN
+  3  n:=acc2(2000);
+  4  dbms_output.put_line('No of accidents: '||n);
+  5  END;
+  6  /
+Total Accidents Function
+No of accidents: 0
+
+PL/SQL procedure successfully completed.
+
+SQL> Q4. Create a procedure to display total damage caused due to an accident for a particular
+SP2-0734: unknown command beginning "Q4. Create..." - rest of line ignored.
+SQL> driver on a specific year.
+SP2-0734: unknown command beginning "driver on ..." - rest of line ignored.
+SQL>
+SQL> CREATE OR REPLACE PROCEDURE return_damage (n IN varchar2, y IN number)
+  2  IS
+  3  sumT INTEGER;
+  4  BEGIN
+  5  SELECT sum(damage_amount) INTO sumT
+  6  FROM participated natural join accident
+  7  WHERE driver_id = n AND extract(year FROM accd_date) = y;
+  8  dbms_output.put_line('Total Damage Amount: '||sumT||' ');
+  9  END;
+ 10  /
+
+Procedure created.
+
+SQL>
+SQL> execute return_damage('a101', 2020);
+Total Damage Amount: 3000
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE procedure acc1(loc in varchar) IS
+  2  rno INTEGER;
+  3  BEGIN
+  4  For item in(
+  5  SELECT * FROM ACCIDENT WHERE ACCIDENT.location=loc
+  6  ) LOOP
+  7  dbms_output.put_line('Report Number : '||item.report_number);
+  8  dbms_output.put_line('Accident Date : '||item.accd_date);
+  9  dbms_output.put_line('Location : '||item.location);
+ 10  END LOOP;
+ 11  END;
+ 12  /
+
+Procedure created.
+
+SQL>
+SQL> set serveroutput on;
+SQL> declare
+  2  BEGIN
+  3  acc1('ROAD 8 , BENGALURU');
+  4  END;
+  5  /
+Report Number : 1003
+Accident Date : 28-MAR-22
+Location : ROAD 8 , BENGALURU
+Report Number : 1004
+Accident Date : 28-MAR-19
+Location : ROAD 8 , BENGALURU
+
+PL/SQL procedure successfully completed.
+
+SQL>
