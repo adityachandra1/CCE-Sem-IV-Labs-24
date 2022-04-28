@@ -1,1 +1,2 @@
-## Operating Systems Lab CCE - 24
+## Operating Systems Lab
+OS Lab, 4th Semester, CCE, MIT Manipal
