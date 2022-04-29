@@ -1,46 +1,65 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-#define V 5
-int minKey(int key[], bool mstSet[])
-{
-    int min = INT_MAX, min_index;
-    for (int v = 0; v < V; v++)
-    if (mstSet[v] == false && key[v] < min)
-    min = key[v], min_index = v;
-    return min_index;
+
+int findMinVertex(int *distance, bool *visited, int v) {
+    int minVal = INT_MAX, minIndex;
+
+    for (int i = 0; i < v; i++)
+        if (!visited[i] && distance[i] < minVal) {
+            minIndex = i;
+            minVal = distance[i];
+        }
+
+    return minIndex;
 }
-void printMST(int parent[], int graph[V][V])
-{
-    cout<<"Edge \tWeight\n";
-    for (int i = 1; i < V; i++)
-    cout<<parent[i]<<" - "<<i<<" \t"<<graph[i][parent[i]]<<" \n";
-}
-void primMST(int graph[V][V])
-{
-    int parent[V];
-    int key[V];
-    bool mstSet[V];
-    for (int i = 0; i < V; i++)
-    key[i] = INT_MAX, mstSet[i] = false;
-    key[0] = 0;
-    parent[0] = -1;
-    for (int count = 0; count < V - 1; count++)
-    {
-        int u = minKey(key, mstSet);
-        mstSet[u] = true;
-        for (int v = 0; v < V; v++)
-        if (graph[u][v] && mstSet[v] == false && graph[u][v] < key[v])
-        parent[v] = u, key[v] = graph[u][v];
+
+int main() {
+    int v, e;
+    cin >> v >> e;
+    cout << endl;
+
+    int **adj = new int *[v];
+
+    for (int i = 0; i < v; i++)
+        adj[i] = new int[v];
+
+    for (int i = 0; i < v; i++)
+        for (int j = 0; j < v; j++)
+            adj[i][j] = 0;
+
+    for (int i = 0; i < e; i++) {
+        int l, r, w;
+        cin >> l >> r >> w;
+        adj[l][r] = w;
+        adj[r][l] = w;
     }
-    printMST(parent, graph);
-}
-int main()
-{
-    int graph[V][V] = { { 0, 2, 0, 4, 0 },
-                        { 2, 0, 1, 2, 5 },
-                        { 0, 3, 0, 0, 3 },
-                        { 3, 7, 0, 9, 10 },
-                        { 0, 2, 3, 11, 0 } };
- primMST(graph);
- return 0;
+
+    bool *visited = new bool[v];
+    for (int i = 0; i < v; i++)
+        visited[i] = false;
+
+    int *distance = new int[v];
+    int *parent = new int[v];
+
+    for (int i = 1; i < v; i++)
+        distance[i] = INT_MAX;
+
+    distance[0] = 0;
+
+    for (int i = 0; i < v - 1; i++) {
+        int curr = findMinVertex(distance, visited, v);
+        visited[curr] = true;
+
+        for (int j = 0; j < v; j++)
+            if (!visited[j] && adj[curr][j] != 0)
+                if (distance[j] > adj[curr][j]) {
+                    distance[j] = adj[curr][j];
+                    parent[j] = curr;
+                }
+    }
+
+    for (int i = 1; i < v; i++)
+        cout << min(parent[i], i) << " -> " << max(parent[i], i) << " : " << distance[i] << "\n";
+
+    return 0;
 }

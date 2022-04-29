@@ -1,49 +1,70 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-#define V 9
-int mindist(int dist[], bool sp[])
-{
-    int min = INT_MAX, min_index;
-    for (int v = 0; v < V; v++)
-        if (sp[v] == false && dist[v] <= min)
-            min = dist[v], min_index = v;
-    return min_index;
-}
-void print(int dist[])
-{
-    cout<<"Vertex \t Distance from Source\n";
-    for (int i = 0; i < V; i++)
-        cout<< i<< "\t\t"<<dist[i]<<"\n";
-}
-void dijkstra(int graph[V][V], int src)
-{
-    int dist[V];
-    bool sp[V];
-    for (int i = 0; i < V; i++)
-        dist[i] = INT_MAX, sp[i] = false;
-    dist[src] = 0;
-    for (int count = 0; count < V - 1; count++)
-    {
-        int u = mindist(dist, sp);
-        sp[u] = true;
-        for (int v = 0; v < V; v++)
-            if (!sp[v] && graph[u][v] && dist[u] != INT_MAX&& dist[u] + graph[u][v] < dist[v])
-                dist[v] = dist[u] + graph[u][v];
+
+int findMinVertex(bool *visited, int *distance, int v) {
+    int minIndex, minVal = INT_MAX;
+
+    for (int i = 0; i < v; i++) {
+        if (!visited[i] && distance[i] < minVal) {
+            minVal = distance[i];
+            minIndex = i;
+        }
     }
-    print(dist);
+
+    return minIndex;
 }
-int main()
-{
-    int graph[V][V] = { { 0, 3, 0, 2, 0, 0, 0, 8, 0 },
-        { 2, 0, 8, 0, 0, 0, 0, 13, 0 },
-        { 0, 6, 0, 5, 0, 4, 0, 0, 2 },
-        { 0, 0, 7, 0, 9, 4, 0, 0, 0 },
-        { 0, 0, 0, 9, 0, 10, 0, 0, 0 },
-        { 0, 0, 5, 1, 9, 0, 2, 0, 0 },
-        { 0, 0, 0, 0, 0, 2, 0, 11, 6 },
-        { 6, 11, 0, 0, 0, 0, 13, 0, 7 },
-        { 0, 0, 5, 0, 0, 0, 3, 9, 0 }
-    };
-    dijkstra(graph, 0);
+
+int main() {
+    int v, e;
+    cin >> v >> e;
+    cout << endl;
+
+    int **adj = new int *[v];
+
+    for (int i = 0; i < v; i++)
+        adj[i] = new int[v];
+
+    for (int i = 0; i < v; i++)
+        for (int j = 0; j < v; j++)
+            adj[i][j] = 0;
+
+    for (int i = 0; i < e; i++) {
+        int l, r, w;
+        cin >> l >> r >> w;
+        adj[l][r] = w;
+    }
+
+    bool *visited = new bool[v];
+    for (int i = 0; i < v; i++)
+        visited[i] = false;
+
+    int sv;
+    cout << "Enter start vertex: ";
+    cin >> sv;
+
+    int *distance = new int[v];
+    distance[sv] = 0;
+    for (int i = 0; i < v; i++)
+        if (i != sv)
+            distance[i] = INT_MAX;
+
+    for (int j = 0; j < v; j++) {
+        int curr = findMinVertex(visited, distance, v);
+        visited[curr] = true;
+        for (int i = 0; i < v; i++)
+            if (!visited[i] && adj[curr][i] != 0)
+                if (distance[i] > distance[curr] + adj[curr][i])
+                    distance[i] = distance[curr] + adj[curr][i];
+    }
+
+    for (int i = 0; i < v; i++) {
+        cout << i << " -> ";
+        if (distance[i] == INT_MAX)
+            cout << "unreachable"
+                 << "\n";
+        else
+            cout << distance[i] << "\n";
+    }
+
     return 0;
 }
