@@ -1,55 +1,79 @@
-#include <iostream>
-
+#include <bits/stdc++.h>
 using namespace std;
-void quicksort(int a[], int low, int high)
-{
-    int i,j,pivot,temp;
-    if(high>low)
-    {
-        i=low;
-        j=high+1;
-        pivot=a[high];
-        cout<<pivot;
-        do
-        {
-            do
-            {
-                i++;
-            }
-            while(pivot>a[i]);
-            do
-            {
-                j--;
-            }
-            while (pivot<a[j]);
-            if(j>i)
-            {
-                temp=a[i];
-                a[i]=a[j];
-                a[j]=temp;
-            }
+int c = 0;
+void swap(int* a, int* b) {
+    int t = *a;
+    c++;
+    *a = *b;
+    c++;
+    *b = t;
+    c++;
+}
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    c++;
+    int i = (low - 1);
+    c++;
+
+    for (int j = low; j <= high - 1; j++) {
+        c++;
+        if (arr[j] < pivot) {
+            c++;
+            i++;
+            c++;
+            swap(&arr[i], &arr[j]);
+            c++;
         }
-        while (j>i);
-        temp=a[low];
-        a[low]=a[j];
-        a[j]=temp;
-        quicksort(a,low,j-1);
-        quicksort(a,j+1,high);
+    }
+    c++;
+    swap(&arr[i + 1], &arr[high]);
+    c++;
+    c++;
+    return (i + 1);
+}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        c++;
+        int pi = partition(arr, low, high);
+        c++;
+        quickSort(arr, low, pi - 1);
+        c++;
+        quickSort(arr, pi + 1, high);
+        c++;
     }
 }
-int main()
-{
-    cout << "Enter Size of Array: ";
-    int n ;
+
+int main() {
+    int n;
+    c++;
+    cout << "Enter size of array: ";
+    c++;
     cin >> n;
-    int arr[n];
-    cout << "Enter Array Elements: ";
-    for(int i = 0; i < n; i++)
-    {
-        cin >> arr[i];
+    c++;
+    int a[n];
+    c++;
+    cout << "Enter array elements: ";
+    c++;
+    for (int i = 0; i < n; i++) {
+        c++;
+        cin >> a[i];
+        c++;
     }
-    quicksort(arr,0,n);
-    cout<<"The sorted array is "<<endl;
-    for(int i=0; i<n; i++)
-        cout<<arr[i]<<" ";
+    c++;
+    quickSort(a, 0, n - 1);
+    c++;
+    cout << "Sorted array: ";
+    c++;
+    for (int i = 0; i < n; i++) {
+        c++;
+        cout << a[i] << " ";
+        c++;
+    }
+    c++;
+    cout << endl;
+    cout << "Step Count: " << c;
+
+    return 0;
 }
