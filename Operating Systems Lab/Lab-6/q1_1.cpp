@@ -269,11 +269,20 @@ int main()
         findavgTimes(proc, n); 
     }
     else if(ch==2){
-        
-        int processes[] = { 1, 2, 3}; 
+    
+    	printf("Input Number of processes: ");
+            int num;
+            scanf("%d",&num);
+            int processes[num];
+	    int burst_time[num];
+            for(int i =0;i<num;i++) {
+            	printf("Enter PID and Burst Time %d : ", i);
+            	scanf("%d %d", &processes[i], &burst_time[i]);
+            }
         int n = sizeof processes / sizeof processes[0]; 
-        int burst_time[] = {10, 5, 8}; 
-        int quantum = 2; 
+        int quantum;
+        printf("Enter Quantum : ");
+        scanf("%d", &quantum); 
         for (int i = 0; i < n; i++) {
             printf("Process id: %d \t Burst Time: %d \n", processes[i],burst_time[i]);
         }
