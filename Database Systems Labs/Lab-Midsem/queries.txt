@@ -1,0 +1,125 @@
+CREATE TABLE instructors(
+	pid INT,
+	name VARCHAR(50),
+	department VARCHAR(20),
+	PRIMARY KEY (pid)
+);
+
+CREATE TABLE person(
+	pid INT,
+	name VARCHAR(50),
+	designation VARCHAR(30),
+	PRIMARY KEY (pid)
+);
+
+CREATE TABLE persons(
+	pid INT,
+	name VARCHAR(50),
+	designation VARCHAR(30),
+	PRIMARY KEY (pid)
+);
+
+
+INSERT INTO instructors VALUES(1001, 'Joe Mama', 'ICT');
+INSERT INTO instructors VALUES(1002, 'Ben Dover', 'ICT');
+INSERT INTO instructors VALUES(1003, 'Jack Mehoff', 'EEE');
+INSERT INTO instructors VALUES(1004, 'Yuri Tarded', 'CSE');
+INSERT INTO instructors VALUES(1005, 'Ligma Boles', 'ICT');
+INSERT INTO instructors VALUES(1006, 'Sugon Deez', 'CSE');
+INSERT INTO instructors VALUES(1007, 'Someone', 'EEE');
+INSERT INTO instructors VALUES(1008, 'Candice', 'DSE');
+
+
+INSERT INTO persons VALUES(10010, 'Sigma Mole', 'Student');
+INSERT INTO persons VALUES(1005, 'Ligma Boles', 'Faculty');
+INSERT INTO persons VALUES(10012, 'Putin Deez', 'Student');
+INSERT INTO persons VALUES(1001, 'Joe Mama ', 'Faculty');
+INSERT INTO persons VALUES(10014, 'Phineas', 'Student');
+INSERT INTO persons VALUES(10015, 'Ferb', 'Student');
+INSERT INTO persons VALUES(10016, 'Perry', 'Student');
+INSERT INTO persons VALUES(1008, 'Candice', 'Faculty');
+
+
+//Q1  Create a function to Count Instructors by Department
+
+CREATE OR REPLACE FUNCTION count_inst (dept_name in VARCHAR)
+RETURN NUMBER AS
+counter INTEGER;
+BEGIN
+	SELECT count(*) into counter 
+	FROM instructors
+	WHERE department = dept_name;
+	DBMS_OUTPUT.PUT_LINE('Instructor Counter Function');
+	return counter;
+END;
+/
+
+SET SERVEROUTPUT ON;
+DECLARE dept_cnt INTEGER;
+BEGIN
+	dept_cnt :=count_inst('ICT');
+	DBMS_OUTPUT.PUT_LINE(dept_cnt);
+END;
+/
+
+//Q2 Create trigger to delete 
+
+CREATE OR REPLACE TRIGGER del_trigger
+AFTER DELETE ON instructors
+FOR EACH ROW
+BEGIN	
+	DELETE FROM PERSONS where pid=:old.pid;
+	DBMS_OUTPUT.PUT_LINE('Trigger called');
+END;
+/
+
+SELECT * from instructors;
+SELECT * from persons;
+
+DELETE 
+FROM instructors
+WHERE pid =1008;
+
+SELECT * from instructors;
+SELECT * from persons;
+
+
+EZZ 20/20 LMAO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
