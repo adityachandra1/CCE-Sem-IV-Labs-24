@@ -25,7 +25,7 @@ int main()
     cout << "NUMBER OF CITIES" << endl;
     cin >> verts ;
     int graph[V][V];
-    cout<<"enter adj matrix of tities"<<endl;
+    cout<<"enter adj matrix of cities"<<endl;
     for(int i=0; i<verts; i++)
     {
         for(int j=0; j<verts; j++)

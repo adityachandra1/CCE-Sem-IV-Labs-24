@@ -5,7 +5,7 @@ using namespace std;
 // problem instance globals (note: I waste index 0 to match textbook )
 float w[] = {-1, 4, 7, 5, 3 }; // item weights - previously SORTED in ascending order of profit per weight
 float p[] = {-1, 40, 63, 25, 12 }; // item profits
-int n = 4; // number of items
+int n; // number of items
 float W = 10.0; // knapsack weight limit
 // best solution found (note: I waste index 0 to match textbook )
 float maxprofit = 0.0;
@@ -56,6 +56,10 @@ void knapsack(int i, float weight, float profit)
 } // end knapsack
 int main()
 {
+    cin >> n;
+    for(int i = 0; i < n; i++){
+
+    }
     knapsack(0, 0.0, 0.0); // inital call to kick off the backtracking
 // print results
     cout << "Best profit: " << maxprofit << endl;

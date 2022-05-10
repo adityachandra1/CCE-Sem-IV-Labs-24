@@ -16,6 +16,7 @@ int power(int x, unsigned int y)
 int main()
 {
     int x, y;
+    cout << "ENTER X AND Y WHERE X IS THE BASE AND Y IS THE EXPONENT VALUE: ";
     cin >> x >> y;
     cout << power(x, y);
 }
