@@ -155,3 +155,60 @@ int main(){
 		exit(0);
 	return 0;
 }
+
+/*
+DEADLOCK AVOIDANCE USING BANKER'S ALGORITHM
+
+ Enter total no. of processes : 3
+
+ Enter total no. of resources : 2
+
+ Process 1
+ Allocation for resource 1 : 4
+ Maximum for resource 1 : 5
+ Allocation for resource 2 : 7
+ Maximum for resource 2 : 9
+
+ Process 2
+ Allocation for resource 1 : 5
+ Maximum for resource 1 : 3
+ Allocation for resource 2 : 7 
+ Maximum for resource 2 : 10
+
+ Process 3
+ Allocation for resource 1 : 4 
+ Maximum for resource 1 : 6 
+ Allocation for resource 2 : 2 
+ Maximum for resource 2 : 1
+
+ Available resources : 
+ Resource 1 : 5
+ Resource 2 : 7
+
+ Allocation Matrix
+4	7	
+5	7	
+4	2	
+ Maximum Requirement Matrix
+5	9	
+3	10	
+6	1	
+ Need Matrix
+1	2	
+-2	3	
+2	-1	Safety Algorithm
+
+ P0   P1   P2  
+ A safety sequence has been detected.
+
+ Do you want make an additional request ? (1=Yes|0=No)1
+
+ Enter process no. : 1
+Resource-Request Algorithm
+ Enter additional request :- 
+1 Request for resource 1 : 1
+2 Request for resource 2 : 2
+Safety Algorithm
+
+ P0   P1   P2  
+*/
