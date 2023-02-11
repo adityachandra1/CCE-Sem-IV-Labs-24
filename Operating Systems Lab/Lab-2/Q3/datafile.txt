@@ -1,11 +1,11 @@
 RegistrationNo:Name:Department:Branch:Section:Sub1:Sub2:Sub3
 200953032:Aditya Chandra:ICT:CCE:A:90:95:92
-200953050:Praveen Verma:CSE:CSE:B:99:92:88
-200953012:Anurag Chowdhary:CSE:CSE:A:88:80:100
-200912312:Aryamann Ningombamm:ICT:IT:B:99:91:94
+200953050:Praveen:CSE:CSE:B:99:92:88
+200953012:Anurag:CSE:CSE:A:88:80:100
+200912312:Aryamann:ICT:IT:B:99:91:94
 200900001:Akshay Gupta:Electronics:Mechanical:C:40:60:90
 200900002:Yashwant:Electronics:ECE:A:69:69:42
 200912356:Shreya:Electronics:EEE:B:100:23:56
 200930303:Aman Gupta:ICT:CCE:ICT:D:12:30:21
-200958432:Ruthvik Reddy:ICT:IT:A:90:12:34
+200958432:Ruthvik:ICT:IT:A:90:12:34
 200934671:Anish:Electronics:ENI:89:45:23
